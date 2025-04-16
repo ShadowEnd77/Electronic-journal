@@ -1,0 +1,130 @@
+﻿<Window x:Class="WpfApp1.shell.View.MainMenuPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Школа" Height="600" Width="900" MinWidth="900" MinHeight="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <!-- Верхняя полоска -->
+            <RowDefinition Height="*"/>
+            <!-- Основная область -->
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <!-- Левая панель -->
+            <ColumnDefinition Width="*"/>
+            <!-- Основная область -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Верхняя полоска -->
+        <Border Background="#7685E5" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding Username}" 
+                           Background="White"
+                           FontSize="16" 
+                           Foreground="Black" 
+                           RenderTransformOrigin="0.5,0.5" Width="130" Height="22">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <Border Background="#38427C" Margin="150,40,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
+        </Border>
+
+        <!-- Левая панель с кнопками -->
+        <Border Background="#7685E5" Grid.Column="0" Margin="0,40,67,0" Grid.RowSpan="2">
+            <StackPanel VerticalAlignment="Top">
+                <Button Content="Расписание" Margin="10" Click="ScheduleButton_Click"/>
+                <Button Content="Оценки" Margin="10" Click="GradesButton_Click"/>
+                <Button Content="Школа" Margin="10" Click="SchoolButton_Click"/>
+            </StackPanel>
+
+        </Border>
+
+        <!-- Основная область с заголовком и текстом -->
+        <Border Background="#FFFFFF" Grid.ColumnSpan="2" Margin="133,10,0,0" Grid.Row="1">
+            <Grid Margin="20">
+                <!-- Определяем строки и столбцы для основного контента -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Заголовок -->
+                    <RowDefinition Height="*"/>
+                    <!-- Основное содержимое -->
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="293"/>
+                    <!-- Левая колонка для изображения -->
+                    <ColumnDefinition/>
+                    <!-- Центральная колонка для текста -->
+                    <ColumnDefinition Width="217"/>
+                    <!-- Правая колонка для текста -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Заголовок -->
+                <TextBlock Text="Муниципальное общеобразовательное учреждение: Лицей №32"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#38427C"
+                           TextAlignment="Left"
+                           Grid.ColumnSpan="3"
+                           Margin="0,10,0,10"/>
+
+                <!-- Изображение в левой колонке -->
+                <Image Source="/View/9_k3xfk5kEw.jpg" 
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top" Height="351" Margin="10,15,0,0" Grid.Row="1" Width="326" Grid.ColumnSpan="2" />
+
+                <!-- Центральный текст в средней колонке -->
+                <TextBlock
+                           FontSize="16"
+                           Foreground="#000000"
+                           TextAlignment="Left"
+                           Margin= "0,10,10,63"
+                           Grid.Column= "1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Right" Width="181">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform><Run Text="Адрес организации:"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="Телефон организации:"/><LineBreak/><Run/><LineBreak/><Run Text="E-mail Организации:"/><LineBreak/><Run/><LineBreak/><Run Text="Адрес сайта:"/><LineBreak/><Run/><LineBreak/><Run Text="Количество сотрудников:"/><LineBreak/><Run/><LineBreak/><Run Text="Количество учеников"/></TextBlock>
+
+                <!-- Текст в правой колонке -->
+                <TextBlock
+                           FontSize= "16"
+                           Foreground= "#000000"
+                           TextAlignment= "Left"
+                           Margin= "10,10,0,51"
+                           Grid.Column= "2" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="197">
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform><Run Text=" 160031, Вологодская "/><LineBreak/><Run Text="область, городской округ "/><LineBreak/><Run Text="город Вологда, "/><LineBreak/><Run Text="город Вологда, улица "/><LineBreak/><Run Text="Кирова, д.35"/><LineBreak/><Run/><LineBreak/><Run Text="72-43-32"/><LineBreak/><Run/><LineBreak/><Run Text="school32@vologda.edu.ru"/><LineBreak/><Run/><LineBreak/><Run Text="http://lyc32.edu35.ru"/><LineBreak/><Run/><LineBreak/><Run Text="60"/><LineBreak/><Run/><LineBreak/><Run Text="906"/></TextBlock>
+            </Grid>
+        </Border>
+        <Border Background="#38427C" Margin="133,40,50,0" Grid.RowSpan="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
+        </Border>
+
+    </Grid>
+</Window>
