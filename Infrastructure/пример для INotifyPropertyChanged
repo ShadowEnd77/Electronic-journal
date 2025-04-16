@@ -1,0 +1,17 @@
+public class Person : ObservableObject
+{
+    private string _name;
+    private int _age;
+
+    public string Name
+    {
+        get => _name;
+        set => Set(ref _name, value);
+    }
+
+    public int Age
+    {
+        get => _age;
+        set => Set(ref _age, value);
+    }
+}

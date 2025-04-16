@@ -1,0 +1,35 @@
+public class ViewModel
+{
+    private bool _isEnabled;
+    
+    public ICommand SaveCommand { get; }
+    
+    public ViewModel()
+    {
+        SaveCommand = new DelegateCommand(
+            execute: Save,
+            canExecute: CanSave
+        );
+    }
+
+    private void Save(object parameter)
+    {
+        // Логика сохранения
+        Console.WriteLine("Сохранение данных...");
+    }
+
+    private bool CanSave(object parameter)
+    {
+        return _isEnabled;
+    }
+
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set
+        {
+            _isEnabled = value;
+            SaveCommand.RaiseCanExecuteChanged();
+        }
+    }
+}
