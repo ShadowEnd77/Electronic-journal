@@ -18,11 +18,17 @@ namespace WpfApp1.shell.View
 
         private void OnNavigateToMainMenu()
         {
-            // Проверяем, открыто ли уже окно MainMenuPage
-            var mainMenuPage = Application.Current.Windows.OfType<MainMenuPage>().FirstOrDefault();
+            //// Проверяем, открыто ли уже окно MainMenuPage
+            //var mainMenuPage = Application.Current.Windows.OfType<MainMenuPage>().FirstOrDefault();
+            //if (mainMenuPage == null)
+            //{
+            //    mainMenuPage = new MainMenuPage();
+            //    mainMenuPage.Show(); // Открываем новое окно
+            //}
+            var mainMenuPage = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             if (mainMenuPage == null)
             {
-                mainMenuPage = new MainMenuPage();
+                mainMenuPage = new MainWindow();
                 mainMenuPage.Show(); // Открываем новое окно
             }
 

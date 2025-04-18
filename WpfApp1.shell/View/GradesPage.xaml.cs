@@ -17,28 +17,28 @@ namespace WpfApp1.shell.View
     /// <summary>
     /// Логика взаимодействия для GradesPage.xaml
     /// </summary>
-    public partial class GradesPage : Window
+    public partial class GradesPage //: Window
     {
         public GradesPage()
         {
             InitializeComponent();
         }
-        private void ScheduleButton_Click(object sender, RoutedEventArgs e)
-        {
-            SchedulePage schedulePage = new SchedulePage();
-            schedulePage.Show();
-            this.Close();
-        }
+        //private void ScheduleButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    SchedulePage schedulePage = new SchedulePage();
+        //    schedulePage.Show();
+        //    this.Close();
+        //}
 
-        private void GradesButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
+        //private void GradesButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //}
 
-        private void SchoolButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainMenuPage mainmenuPage = new MainMenuPage();
-            mainmenuPage.Show();
-            this.Close();
-        }
+        //private void SchoolButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MainMenuPage mainmenuPage = new MainMenuPage();
+        //    mainmenuPage.Show();
+        //    this.Close();
+        //}
     }
 }
