@@ -126,5 +126,13 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
         </Border>
 
+        <Border Margin="0,0,67,10" Grid.ColumnSpan="2" Height="40" VerticalAlignment="Center">
+            <StackPanel>
+                <Image Source="/View/logo.jpg" Width="38" Height="40" HorizontalAlignment="Left"/>
+                <TextBlock Text="Interio"
+                 FontSize="12"
+                Margin="-10,-20,0,10" Width="142" Height="21" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

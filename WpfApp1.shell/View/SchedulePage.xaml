@@ -11,14 +11,14 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="30.5"/>
+            <ColumnDefinition Width="169.5"/>
             <!-- Левая панель -->
             <ColumnDefinition Width="*"/>
             <!-- Основная область -->
         </Grid.ColumnDefinitions>
-
         <!-- Верхняя полоска -->
-        <Border Background="#7685E5" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,10">
+        <Border Background="#7685E5" Grid.Row="0" Grid.ColumnSpan="3" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding Username}" 
                        Background="White"
@@ -39,26 +39,60 @@
 
 
         </Border>
-        <Border Background="#38427C" Margin="150,40,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <Border Background="#38427C" Margin="120,40,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
         </Border>
 
         <!-- Левая панель с кнопками -->
-        <Border Background="#7685E5" Grid.Column="0" Margin="0,40,67,0" Grid.RowSpan="2">
-            <StackPanel VerticalAlignment="Top">
+        <Border Background="#7685E5" Grid.Column="0" Margin="0,40,67,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <StackPanel VerticalAlignment="Top" Height="534">
                 <Button Content="Расписание" Margin="10" Click="ScheduleButton_Click"/>
                 <Button Content="Оценки" Margin="10" Click="GradesButton_Click"/>
                 <Button Content="Школа" Margin="10" Click="SchoolButton_Click"/>
             </StackPanel>
+
+
         </Border>
 
         <!-- Основная область с заголовком и текстом -->
-        <Border Background="White" Grid.Row="1" Grid.ColumnSpan="2" Margin="150,10,0,0">
+        <Border Background="White" Grid.Row="1" Grid.ColumnSpan="2" Margin="120,10,0,0" Grid.Column="1">
+            <Grid Margin="10,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!-- Определяем строки для основного контента -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="16.6"/>
+                    <!-- Заголовок и изображение -->
+                    <RowDefinition/>
+                    <!-- Основное содержимое -->
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок -->
+                <TextBlock Text="Тут будет выборка параметров выпадающими списками"
+                FontSize="20"
+                FontWeight="Bold"
+                Background="#5E6BBD"
+                TextAlignment="Left"
+                Margin="-10,-20,0,10"/>
+                <!-- Текстовая информация во второй строке -->
+                <StackPanel Grid.Row="1" Orientation="Vertical" Height="476" VerticalAlignment="Top" Margin="-10,10,0,0">
+                    <TextBlock Text="Тут надо будет вставлять таблицу" Height="476" Width="740"/>
+                </StackPanel>
+            </Grid>
         </Border>
 
 
-        <Border Background="#38427C" Margin="133,40,50,0" Grid.RowSpan="2">
+        <Border Background="#38427C" Margin="102,40,49,0" Grid.RowSpan="2" Grid.Column="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
+        </Border>
+        <Border Margin="0,0,67,10" Grid.ColumnSpan="2" Height="40" VerticalAlignment="Center">
+            <StackPanel>
+                <Image Source="/View/logo.jpg" Width="35" Height="40" HorizontalAlignment="Left"/>
+                <TextBlock Text="Interio"
+                FontSize="12"
+                Margin="-10,-20,0,10" Width="46" Height="17" FontWeight="Bold" TextAlignment="Center"/>
+            </StackPanel>
         </Border>
     </Grid>
 </Window>
