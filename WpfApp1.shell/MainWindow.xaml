@@ -69,7 +69,7 @@
                 <Image Source="/View/logo.jpg" Width="38" Height="40" HorizontalAlignment="Left"/>
                 <TextBlock Text="Interio"
                  FontSize="12"
-                Margin="-10,-20,0,10" Width="142" Height="21" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Left"/>
+                Margin="0,-20,0,10" Width="142" Height="21" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
 

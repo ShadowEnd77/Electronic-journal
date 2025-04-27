@@ -6,43 +6,45 @@
         xmlns:local="clr-namespace:WpfApp1.shell.View"
         mc:Ignorable="d"
         Height="600" Width="900" MinWidth="900" MinHeight="600">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Viewbox Stretch="Uniform">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <!-- Основная область -->
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <!-- Основная область -->
+            </Grid.ColumnDefinitions>
 
-        <!-- Основная область с заголовком и текстом -->
-        <Border Background="White" Margin="20,0,0,0">
-            <Grid Margin="10,20,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="539*"/>
-                    <ColumnDefinition Width="331*"/>
-                </Grid.ColumnDefinitions>
-                <!-- Определяем строки для основного контента -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" MinHeight="16.6"/>
-                    <!-- Заголовок и изображение -->
-                    <RowDefinition/>
-                    <!-- Основное содержимое -->
-                </Grid.RowDefinitions>
+            <!-- Основная область с заголовком и текстом -->
+            <Border Background="White" Margin="20,0,0,0">
+                <Grid Margin="10,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="539*"/>
+                        <ColumnDefinition Width="331*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Определяем строки для основного контента -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="16.6"/>
+                        <!-- Заголовок и изображение -->
+                        <RowDefinition/>
+                        <!-- Основное содержимое -->
+                    </Grid.RowDefinitions>
 
-                <!-- Заголовок -->
-                <TextBlock Text="Тут будет выборка параметров выпадающими списками по оценкам"
-               FontSize="20"
-               FontWeight="Bold"
-               Background="#5E6BBD"
-               TextAlignment="Left"
-               Margin="-10,-20,0,10" Grid.ColumnSpan="2"/>
-                <!-- Текстовая информация во второй строке -->
-                <StackPanel Grid.Row="1" Orientation="Vertical" Height="476" VerticalAlignment="Top" Margin="-10,10,0,0" Grid.ColumnSpan="2">
-                    <TextBlock Text="Тут надо будет вставлять таблицу" Height="476" Width="740"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-    </Grid>
+                    <!-- Заголовок -->
+                    <TextBlock Text="Тут будет выборка параметров выпадающими списками по оценкам"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Background="#5E6BBD"
+                               TextAlignment="Left"
+                               Margin="-10,-20,0,10" Grid.ColumnSpan="2"/>
+                    <!-- Текстовая информация во второй строке -->
+                    <StackPanel Grid.Row="1" Orientation="Vertical" Height="476" VerticalAlignment="Top" Margin="-10,10,0,0" Grid.ColumnSpan="2">
+                        <TextBlock Text="Тут надо будет вставлять таблицу" Height="476" Width="740"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Viewbox>
 </UserControl>
