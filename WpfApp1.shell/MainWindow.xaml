@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.shell"
         mc:Ignorable="d"
-        Height="600" Width="900" MinWidth="900" MinHeight="600">
+        Height="600" Width="900" MinWidth="1200" MinHeight="700">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>

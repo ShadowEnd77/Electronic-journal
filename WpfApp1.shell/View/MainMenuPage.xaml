@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-         Height="600" Width="900" MinWidth="900" MinHeight="600">
+        MinWidth="900" MinHeight="600">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,73 +17,109 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-
         <!-- Основная область с заголовком и текстом -->
         <Border Background="#FFFFFF" Margin="20,0,0,0">
-            <Grid>
-                <!-- Определяем строки и столбцы для основного контента -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
+            <Viewbox Stretch="Uniform">
+                <Grid>
+                    <!-- Определяем строки и столбцы для основного контента -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- Заголовок -->
+                        <RowDefinition Height="*"/>
+                        <!-- Основное содержимое -->
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="293"/>
+                        <!-- Левая колонка для изображения -->
+                        <ColumnDefinition/>
+                        <!-- Центральная колонка для текста -->
+                        <ColumnDefinition Width="217"/>
+                        <!-- Правая колонка для текста -->
+                    </Grid.ColumnDefinitions>
+
                     <!-- Заголовок -->
-                    <RowDefinition Height="*"/>
-                    <!-- Основное содержимое -->
-                </Grid.RowDefinitions>
+                    <TextBlock Text="Муниципальное общеобразовательное учреждение: Лицей №32"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#38427C"
+                               TextAlignment="Left"
+                               Grid.ColumnSpan="3"
+                               Margin="0,10,0,10"/>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="293"/>
-                    <!-- Левая колонка для изображения -->
-                    <ColumnDefinition/>
-                    <!-- Центральная колонка для текста -->
-                    <ColumnDefinition Width="217"/>
-                    <!-- Правая колонка для текста -->
-                </Grid.ColumnDefinitions>
+                    <!-- Изображение в левой колонке -->
+                    <Image Source="/View/9_k3xfk5kEw.jpg" 
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top" 
+                           Height="403" 
+                           Margin="0,15,0,0" 
+                           Grid.Row="1" 
+                           Width="272" />
 
-                <!-- Заголовок -->
-                <TextBlock Text="Муниципальное общеобразовательное учреждение: Лицей №32"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Foreground="#38427C"
-                           TextAlignment="Left"
-                           Grid.ColumnSpan="3"
-                           Margin="0,10,0,10"/>
+                    <!-- Центральный текст в средней колонке -->
+                    <TextBlock
+                               FontSize="16"
+                               Foreground="#000000"
+                               TextAlignment="Left"
+                               Margin= "0,10,10,63"
+                               Grid.Column= "1" 
+                               RenderTransformOrigin="0.5,0.5" 
+                               Grid.Row="1" 
+                               HorizontalAlignment="Right" 
+                               Width="218">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                        <Run Text="Адрес организации:"/><LineBreak/>
+                        <Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/>
+                        <Run Text="Телефон организации:"/><LineBreak/>
+                        <Run/><LineBreak/>
+                        <Run Text="E-mail Организации:"/><LineBreak/>
+                        <Run/><LineBreak/>
+                        <Run Text="Адрес сайта:"/><LineBreak/>
+                        <Run/><LineBreak/>
+                        <Run Text="Количество сотрудников:"/><LineBreak/>
+                        <Run/><LineBreak/>
+                        <Run Text="Количество учеников"/>
+                    </TextBlock>
 
-                <!-- Изображение в левой колонке -->
-                <Image Source="/View/9_k3xfk5kEw.jpg" 
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top" Height="403" Margin="10,15,0,0" Grid.Row="1" Width="429" Grid.ColumnSpan="2" />
-
-                <!-- Центральный текст в средней колонке -->
-                <TextBlock
-                           FontSize="16"
-                           Foreground="#000000"
-                           TextAlignment="Left"
-                           Margin= "0,10,10,63"
-                           Grid.Column= "1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Right" Width="218">
-                    <TextBlock.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </TextBlock.RenderTransform><Run Text="Адрес организации:"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="Телефон организации:"/><LineBreak/><Run/><LineBreak/><Run Text="E-mail Организации:"/><LineBreak/><Run/><LineBreak/><Run Text="Адрес сайта:"/><LineBreak/><Run/><LineBreak/><Run Text="Количество сотрудников:"/><LineBreak/><Run/><LineBreak/><Run Text="Количество учеников"/></TextBlock>
-
-                <!-- Текст в правой колонке -->
-                <TextBlock
-                           FontSize= "16"
-                           Foreground= "#000000"
-                           TextAlignment= "Left"
-                           Margin= "10,10,0,51"
-                           Grid.Column= "2" RenderTransformOrigin="0.5,0.5" Grid.Row="1" HorizontalAlignment="Left" Width="197">
-                    <TextBlock.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </TextBlock.RenderTransform><Run Text=" 160031, Вологодская "/><LineBreak/><Run Text="область, городской округ "/><LineBreak/><Run Text="город Вологда, "/><LineBreak/><Run Text="город Вологда, улица "/><LineBreak/><Run Text="Кирова, д.35"/><LineBreak/><Run/><LineBreak/><Run Text="72-43-32"/><LineBreak/><Run/><LineBreak/><Run Text="school32@vologda.edu.ru"/><LineBreak/><Run/><LineBreak/><Run Text="http://lyc32.edu35.ru"/><LineBreak/><Run/><LineBreak/><Run Text="60"/><LineBreak/><Run/><LineBreak/><Run Text="906"/></TextBlock>
-            </Grid>
+                    <!-- Текст в правой колонке -->
+                    <TextBlock
+                               FontSize= "16"
+                               Foreground= "#000000"
+                               TextAlignment= "Left"
+                               Margin= "10,10,0,51"
+                               Grid.Column= "2" 
+                               RenderTransformOrigin="0.5,0.5" 
+                               Grid.Row="1" 
+                               HorizontalAlignment="Left" 
+                               Width="197">
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="1"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                        <Run Text=" 160031, Вологодская "/><LineBreak/>
+                        <Run Text="область, городской округ "/><LineBreak/>
+                        <Run Text="город Вологда, "/><LineBreak/>
+                        <Run Text="город Вологда, улица "/><LineBreak/>
+                        <Run Text="Кирова, д.35"/><LineBreak/><Run/><LineBreak/>
+                        <Run Text="72-43-32"/><LineBreak/><Run/><LineBreak/>
+                        <Run Text="school32@vologda.edu.ru"/><LineBreak/><Run/><LineBreak/>
+                        <Run Text="http://lyc32.edu35.ru"/><LineBreak/><Run/><LineBreak/>
+                        <Run Text="60"/><LineBreak/><Run/><LineBreak/>
+                        <Run Text="906"/>
+                    </TextBlock>
+                </Grid>
+            </Viewbox>
         </Border>
     </Grid>
 </UserControl>
