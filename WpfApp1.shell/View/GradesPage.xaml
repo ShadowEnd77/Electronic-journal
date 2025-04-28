@@ -1,39 +1,58 @@
 ﻿<UserControl x:Class="WpfApp1.shell.View.GradesPage"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.shell.View"
-        mc:Ignorable="d"
-        MinWidth="900" MinHeight="600">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:WpfApp1.shell.View"
+             mc:Ignorable="d"
+             MinWidth="900" MinHeight="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Заголовок -->
             <RowDefinition Height="*"/>
-            <!-- Основное содержимое -->
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <TextBlock Text="    Тут будет выборка параметров выпадающими списками по оценкам"
-               FontSize="20"
-               FontWeight="Bold"
-               Background="#5E6BBD"
-               TextAlignment="Left"
-               Margin="0,0,0,0" 
-               VerticalAlignment="Top"/>
+        <!-- Заголовок и фильтры -->
+        <StackPanel Grid.Row="0" Background="#5E6BBD" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Оценки" FontSize="20" FontWeight="Bold" Foreground="White" Margin="10"/>
+            <ComboBox ItemsSource="{Binding Classes}" 
+                      SelectedItem="{Binding SelectedClass}"
+                      DisplayMemberPath="Letter" 
+                      Width="100" Margin="10"/>
+            <ComboBox ItemsSource="{Binding Subjects}" 
+                      SelectedItem="{Binding SelectedSubject}"
+                      DisplayMemberPath="Name" 
+                      Width="200" Margin="10"/>
+            <Button Content="Обновить" Command="{Binding RefreshCommand}" Margin="10"/>
+        </StackPanel>
 
-        <!-- Основное содержимое с белым фоном и отступом слева -->
+        <!-- Основное содержимое -->
         <Border Grid.Row="1" Background="White" Margin="10,0,0,0">
-            <!-- Отступ слева 10 -->
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <TextBlock Text="Тут будет находиться выборка с предметами и калссами" 
-                       VerticalAlignment="Top" 
-                       Margin="10"/>
-                <!-- Здесь можно добавить другие элементы управления, например, DataGrid для таблицы -->
-                <DataGrid Name="ScheduleDataGrid" 
-                      AutoGenerateColumns="True" 
-                      Margin="10"/>
+                <TextBlock Text="Список оценок" VerticalAlignment="Top" Margin="10"/>
+                <DataGrid Name="GradesDataGrid" 
+                          ItemsSource="{Binding Grades}"
+                          AutoGenerateColumns="False"
+                          Margin="10"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Фамилия ученика" 
+                                           Binding="{Binding StudentClass.Student.LastName}" 
+                                           Width="*"/>
+                        <DataGridTextColumn Header="Имя ученика" 
+                                           Binding="{Binding StudentClass.Student.FirstName}" 
+                                           Width="*"/>
+                        <DataGridTextColumn Header="Предмет" 
+                                           Binding="{Binding TeacherSubject.Subject.Name}" 
+                                           Width="*"/>
+                        <DataGridTextColumn Header="Оценка" 
+                                           Binding="{Binding Grade}" 
+                                           Width="80"/>
+                        <DataGridTextColumn Header="Дата" 
+                                           Binding="{Binding Date.DateValue}" 
+                                           Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
         </Border>
     </Grid>
