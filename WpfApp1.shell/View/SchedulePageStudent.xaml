@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfApp1.shell.View.SchedulePage"
+﻿<UserControl x:Class="WpfApp1.shell.View.SchedulePageStudent"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         MinWidth="900" MinHeight="600">
@@ -23,7 +23,7 @@
         <Border Grid.Row="1" Background="White" Margin="10,0,0,0">
             <!-- Отступ слева 10 -->
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <TextBlock Text="Тут будет находиться выборка и ты лох" 
+                <TextBlock Text="Тут будет находиться выборка кароче ты студент" 
                            VerticalAlignment="Top" 
                            Margin="10"/>
                 <!-- Здесь можно добавить другие элементы управления, например, DataGrid для таблицы -->
@@ -33,4 +33,4 @@
             </StackPanel>
         </Border>
     </Grid>
-</UserControl>
+    </UserControl>

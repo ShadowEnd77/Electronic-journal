@@ -20,6 +20,8 @@ namespace WpfApp1.shell.ViewModel
             set => SetProperty(ref _username, value);
         }
 
+        public int? CurrentAccountId { get; private set; }
+
         public string Password
         {
             get => _password;
@@ -34,16 +36,18 @@ namespace WpfApp1.shell.ViewModel
             _dbContext = dbContext;
             LoginCommand = new DelegateCommand(ExecuteLogin);
         }
-
+        
         private void ExecuteLogin()
         {
             try
             {
+                
                 var account = _dbContext.Accounts
                     .FirstOrDefault(a => a.Login == Username && a.Password == (Password));
 
                 if (account != null)
                 {
+                    CurrentAccountId = account.IdAccount; // или название вашего свойства ID
                     NavigateToMainMenu?.Invoke();
                 }
                 else

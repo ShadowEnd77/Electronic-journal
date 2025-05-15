@@ -1,5 +1,4 @@
-﻿using System.Reactive.Subjects;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WpfApp1.shell.Model.Entities;
 
 namespace WpfApp1.shell.Model
@@ -25,6 +24,10 @@ namespace WpfApp1.shell.Model
 
         public SchoolDbContext(DbContextOptions<SchoolDbContext> options) : base(options)
         {
+        }
+        public SchoolDbContext() : base()
+        {
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -64,6 +67,9 @@ namespace WpfApp1.shell.Model
             modelBuilder.Entity<Account>()
                 .Property(a => a.Password)
                 .HasColumnName("Пароль");
+            modelBuilder.Entity<Account>()
+               .Property(a => a.Role)
+               .HasColumnName("Роль");
 
             // Настройка столбцов и ключей для Teacher
             modelBuilder.Entity<Teacher>()
@@ -170,7 +176,7 @@ namespace WpfApp1.shell.Model
 
             // Настройка столбцов и ключей для TeacherSubject
             modelBuilder.Entity<TeacherSubject>()
-                .HasKey(ts => ts.IdTeacherSubject); 
+                .HasKey(ts => ts.IdTeacherSubject);
             modelBuilder.Entity<TeacherSubject>()
                 .Property(ts => ts.IdTeacherSubject)
                 .HasColumnName("id_учитель-предмет");

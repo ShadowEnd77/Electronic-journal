@@ -15,7 +15,9 @@ namespace WpfApp1.shell
             containerRegistry.RegisterForNavigation<LoginView, LoginViewModel>();
             containerRegistry.RegisterForNavigation<MainMenuPage, MainMenuPageViewModel>();
             containerRegistry.RegisterForNavigation<SchedulePage, SchedulePageViewModel>();
+            containerRegistry.RegisterForNavigation<SchedulePageStudent, SchedulePageStudentViewModel>();
             containerRegistry.RegisterForNavigation<GradesPage, GradesPageViewModel>();
+            containerRegistry.RegisterForNavigation<GradesPageStudent, GradesPageStudentViewModel>();
 
             // Регистрация SchoolDbContext
             containerRegistry.GetContainer().RegisterType<SchoolDbContext>(new InjectionFactory(c =>
