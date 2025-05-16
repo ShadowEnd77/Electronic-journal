@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using Unity.Injection;
+using Prism.Ioc;
+using Prism.Unity;
 using WpfApp1.shell.Model;
 using WpfApp1.shell.View;
 using WpfApp1.shell.ViewModel;
@@ -17,7 +19,7 @@ namespace WpfApp1.shell
             containerRegistry.RegisterForNavigation<SchedulePage, SchedulePageViewModel>();
             containerRegistry.RegisterForNavigation<SchedulePageStudent, SchedulePageStudentViewModel>();
             containerRegistry.RegisterForNavigation<GradesPage, GradesPageViewModel>();
-            containerRegistry.RegisterForNavigation<GradesPageStudent, GradesPageStudentViewModel>();
+            containerRegistry.Register<GradesPageStudent>(); // Не регистрируем для навигации, так как создаем вручную
 
             // Регистрация SchoolDbContext
             containerRegistry.GetContainer().RegisterType<SchoolDbContext>(new InjectionFactory(c =>
@@ -28,9 +30,7 @@ namespace WpfApp1.shell
 
         protected override Window CreateShell()
         {
-            var mainWindow = Container.Resolve<MainWindow>();
-            mainWindow.ShowLogin();
-            return mainWindow;
+            return Container.Resolve<MainWindow>(); // Убрано mainWindow.ShowLogin()
         }
     }
 }

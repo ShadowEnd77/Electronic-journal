@@ -28,7 +28,7 @@
                            Background="White"
                            FontSize="16" 
                            Foreground="Black" 
-                           RenderTransformOrigin="0.5,0.5" Width="130" Height="22">
+                           RenderTransformOrigin="0.5,0.5" Width="199" Height="22">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleX="-1"/>
@@ -72,8 +72,6 @@
                 Margin="0,-20,0,10" Width="142" Height="21" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
-
-        <!-- Контейнер для отображения содержимого -->
-        <!--<ContentControl x:Name="MainContent" Grid.RowSpan="2"/>-->
+        
     </Grid>
 </Window>

@@ -13,7 +13,7 @@ namespace WpfApp1.shell.Model.Entities
         public string LastName { get; set; } // Фамилия
         public string FirstName { get; set; } // Имя
         public string Patronymic { get; set; } // Отчество
-        public string BirthDate { get; set; } // Дата_Рождения
+        public DateTime BirthDate { get; set; } // Дата_Рождения
         public string Gender { get; set; } // Пол
 
         public Account Account { get; set; } // Связь 1:1 с Аккаунты

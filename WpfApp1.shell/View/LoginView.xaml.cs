@@ -1,5 +1,5 @@
 ﻿using Prism.Ioc;
-using System.Linq;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using WpfApp1.shell.ViewModel;
@@ -13,30 +13,30 @@ namespace WpfApp1.shell.View
         public LoginView(IContainerProvider containerProvider)
         {
             InitializeComponent();
-            _containerProvider = containerProvider;
+            _containerProvider = containerProvider ?? throw new ArgumentNullException(nameof(containerProvider));
 
-            var viewModel = containerProvider.Resolve<LoginViewModel>();
+            var viewModel = _containerProvider.Resolve<LoginViewModel>();
             viewModel.NavigateToMainMenu += OnNavigateToMainMenu;
             DataContext = viewModel;
+
+            PasswordBox.PasswordChanged += (s, e) =>
+            {
+                if (DataContext is LoginViewModel vm)
+                {
+                    vm.Password = PasswordBox.Password;
+                }
+            };
         }
 
         private void OnNavigateToMainMenu()
         {
-            var mainMenuPage = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-            if (mainMenuPage == null)
-            {
-                mainMenuPage = _containerProvider.Resolve<MainWindow>();
-                mainMenuPage.Show();
-            }
-            this.Close();
+            Close(); // Закрываем окно логина, MainWindow обработает остальное
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var viewModel = DataContext as LoginViewModel;
-            if (viewModel != null)
+            if (DataContext is LoginViewModel viewModel)
             {
-                viewModel.Password = PasswordBox.Password;
                 viewModel.LoginCommand.Execute();
             }
         }

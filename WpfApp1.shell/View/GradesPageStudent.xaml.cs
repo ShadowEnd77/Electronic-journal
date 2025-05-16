@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using WpfApp1.shell.Model.Entities;
+using WpfApp1.shell.ViewModel;
 
 namespace WpfApp1.shell.View
 {
-    /// <summary>
-    /// Логика взаимодействия для GradesPageStudent.xaml
-    /// </summary>
     public partial class GradesPageStudent : UserControl
     {
-        public GradesPageStudent()
+        public GradesPageStudent(int accountId)
         {
             InitializeComponent();
+            DataContext = new GradesPageStudentViewModel(accountId);
         }
+
     }
 }

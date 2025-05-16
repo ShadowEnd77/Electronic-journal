@@ -42,8 +42,8 @@
                         <DataGridTextColumn Header="Имя ученика" 
                                            Binding="{Binding StudentClass.Student.FirstName}" 
                                            Width="*"/>
-                        <DataGridTextColumn Header="Предмет" 
-                                           Binding="{Binding TeacherSubject.Subject.Name}" 
+                        <DataGridTextColumn Header="Отчество ученика" 
+                                           Binding="{Binding StudentClass.Student.Patronymic}" 
                                            Width="*"/>
                         <DataGridTextColumn Header="Оценка" 
                                            Binding="{Binding Grade}" 
