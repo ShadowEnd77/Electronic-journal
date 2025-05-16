@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using Microsoft.EntityFrameworkCore;
 using WpfApp1.shell.Model;
 using WpfApp1.shell.View;
@@ -78,33 +79,59 @@ namespace WpfApp1
 
         private void NavigateTo<T>() where T : UserControl
         {
-            UserControl view;
-            if (typeof(T) == typeof(GradesPageStudent))
-            {
-                view = new GradesPageStudent(_currentAccountId);
-            }
-            else if (typeof(T) == typeof(SchedulePageStudent))
-            {
-                // Получаем ID студента из аккаунта
-                var studentId = _dbContext.Students
-                    .FirstOrDefault(s => s.IdAccount == _currentAccountId)?.IdStudent;
+            UserControl view = null;
+            string role = GetUserRole();
 
-                if (studentId.HasValue)
+            try
+            {
+                if (typeof(T) == typeof(GradesPageStudent))
                 {
-                    view = new SchedulePageStudent(_dbContext, studentId.Value);
+                    view = new GradesPageStudent(_currentAccountId);
+                }
+                else if (typeof(T) == typeof(SchedulePageStudent))
+                {
+                    var studentId = _dbContext.Students
+                        .FirstOrDefault(s => s.IdAccount == _currentAccountId)?.IdStudent;
+
+                    if (studentId.HasValue)
+                    {
+                        view = new SchedulePageStudent(_dbContext, studentId.Value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Студент не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                }
+                else if (typeof(T) == typeof(SchedulePage))
+                {
+                    var teacherId = _dbContext.Teachers
+                        .FirstOrDefault(t => t.IdAccount == _currentAccountId)?.IdTeacher;
+
+                    if (teacherId.HasValue)
+                    {
+                        view = new SchedulePage(_dbContext, teacherId.Value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Преподаватель не найден", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                 }
                 else
                 {
-                    // Обработка случая, когда студент не найден
-                    MessageBox.Show("Студент не найден");
-                    return;
+                    view = _containerProvider.Resolve<T>();
+                }
+
+                if (view != null)
+                {
+                    MainContent.Content = view;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                view = _containerProvider.Resolve<T>();
+                MessageBox.Show($"Ошибка при переходе: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            MainContent.Content = view;
         }
 
         private string GetUserRole()
@@ -117,21 +144,43 @@ namespace WpfApp1
                 return account?.Role;
             }
         }
-        private void
-ScheduleButton_Click(object sender, RoutedEventArgs e)
+        private void ScheduleButton_Click(object sender, RoutedEventArgs e)
         {
             string role = GetUserRole();
-            if (role == "Учитель")
+            try
             {
-                NavigateTo<SchedulePage>();
+                if (role == "Учитель")
+                {
+                    var teacherId = _dbContext.Teachers
+                        .FirstOrDefault(t => t.IdAccount == _currentAccountId)?.IdTeacher;
+
+                    if (teacherId.HasValue)
+                    {
+                        MainContent.Content = new SchedulePage(_dbContext, teacherId.Value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Преподаватель не найден");
+                    }
+                }
+                else if (role == "Ученик")
+                {
+                    var studentId = _dbContext.Students
+                        .FirstOrDefault(s => s.IdAccount == _currentAccountId)?.IdStudent;
+
+                    if (studentId.HasValue)
+                    {
+                        MainContent.Content = new SchedulePageStudent(_dbContext, studentId.Value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Студент не найден");
+                    }
+                }
             }
-            else if (role == "Ученик")
+            catch (Exception ex)
             {
-                NavigateTo<SchedulePageStudent>();
-            }
-            else
-            {
-                MessageBox.Show("Роль пользователя не определена.", "Ошибка");
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
 

@@ -8,13 +8,16 @@ namespace WpfApp1.shell.Model.Entities
 {
     public class Class
     {
-        public int IdClass { get; set; } // id_класса
-        public int IdTeacher { get; set; } // id_учителя
-        public string Letter { get; set; } // Литера
-        public int Number { get; set; } // Цифра
+        public int IdClass { get; set; }
+        public int IdTeacher { get; set; }
+        public string Letter { get; set; }
+        public int Number { get; set; }
 
-        public Teacher Teacher { get; set; } // Связь 1:1 с Учителя
-        public List<StudentClass> StudentClasses { get; set; } // Связь 1:М с Ученик-Класс
-        public List<JournalSubject> JournalSubjects { get; set; } // Связь 1:М с ЖурналПредмет
+        // Добавляем вычисляемое свойство для имени класса
+        public string ClassName => $"{Number}{Letter}";
+
+        public Teacher Teacher { get; set; }
+        public List<StudentClass> StudentClasses { get; set; }
+        public List<JournalSubject> JournalSubjects { get; set; }
     }
 }

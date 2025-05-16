@@ -14,4 +14,5 @@ namespace WpfApp1.shell.Model.Entities
         public List<TeacherSubject> TeacherSubjects { get; set; } // Связь 1:М с Учитель-Предмет
         public List<JournalSubject> JournalSubjects { get; set; } // Связь 1:М с ЖурналПредмет
     }
+
 }

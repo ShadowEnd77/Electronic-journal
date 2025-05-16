@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using WpfApp1.shell.Model;
 using WpfApp1.shell.Model.Entities;
+using WpfApp1.shell.ViewModel.Students;
+using WpfApp1.shell.ViewModel;
 
 namespace WpfApp1.shell.ViewModel
 {
@@ -14,7 +16,7 @@ namespace WpfApp1.shell.ViewModel
         private readonly SchoolDbContext _dbContext;
         private int _currentStudentId;
         private Quarter _selectedQuarter;
-        private List<ScheduleDay> _scheduleDays;
+        private List<ScheduleStudentDay> _scheduleDays;
 
         public List<Quarter> Quarters { get; private set; }
         public Quarter SelectedQuarter
@@ -27,7 +29,7 @@ namespace WpfApp1.shell.ViewModel
             }
         }
 
-        public List<ScheduleDay> ScheduleDays
+        public List<ScheduleStudentDay> ScheduleDays
         {
             get => _scheduleDays;
             set => SetProperty(ref _scheduleDays, value);
@@ -81,12 +83,12 @@ namespace WpfApp1.shell.ViewModel
 
             var days = scheduleData
                 .GroupBy(js => js.Date.DateValue.Date)
-                .Select(g => new ScheduleDay
+                .Select(g => new ScheduleStudentDay
                 {
                     Date = g.Key,
                     DayOfWeek = g.Key.ToString("dddd"),
                     // Убираем группировку по предметам - оставляем все записи
-                    Subjects = g.Select(js => new ScheduleSubject
+                    Subjects = g.Select(js => new ScheduleStudentSubject
                     {
                         SubjectName = js.Subject?.Name ?? "Без названия",
                         TeacherName = FormatTeacherName(js.TeacherSubject?.Teacher)
@@ -110,16 +112,5 @@ namespace WpfApp1.shell.ViewModel
         }
     }
 
-    public class ScheduleDay
-    {
-        public DateTime Date { get; set; }
-        public string DayOfWeek { get; set; }
-        public List<ScheduleSubject> Subjects { get; set; }
-    }
-
-    public class ScheduleSubject
-    {
-        public string SubjectName { get; set; }
-        public string TeacherName { get; set; }
-    }
+    
 }
