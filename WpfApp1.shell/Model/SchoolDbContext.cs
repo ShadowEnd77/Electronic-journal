@@ -259,37 +259,51 @@ namespace WpfApp1.shell.Model
                 .HasOne(js => js.Subject)
                 .WithMany(s => s.JournalSubjects)
                 .HasForeignKey(js => js.IdSubject);
+     
 
-            // Настройка столбцов и ключей для JournalGrade
-            modelBuilder.Entity<JournalGrade>()
-                .HasKey(jg => jg.IdRecord);
-            modelBuilder.Entity<JournalGrade>()
-                .Property(jg => jg.IdRecord)
-                .HasColumnName("id_записи");
-            modelBuilder.Entity<JournalGrade>()
-                .Property(jg => jg.IdStudentClass)
-                .HasColumnName("id_ученик-класс");
-            modelBuilder.Entity<JournalGrade>()
-                .Property(jg => jg.IdTeacherSubject)
-                .HasColumnName("id_учитель-предмет");
-            modelBuilder.Entity<JournalGrade>()
-                .Property(jg => jg.IdDate)
-                .HasColumnName("id_дата");
-            modelBuilder.Entity<JournalGrade>()
-                .Property(jg => jg.Grade)
-                .HasColumnName("Оценка");
-            modelBuilder.Entity<JournalGrade>()
-                .HasOne(jg => jg.StudentClass)
-                .WithMany(sc => sc.JournalGrades)
-                .HasForeignKey(jg => jg.IdStudentClass);
-            modelBuilder.Entity<JournalGrade>()
-                .HasOne(jg => jg.TeacherSubject)
-                .WithMany(ts => ts.JournalGrades)
-                .HasForeignKey(jg => jg.IdTeacherSubject);
-            modelBuilder.Entity<JournalGrade>()
-                .HasOne(jg => jg.Date)
-                .WithMany(d => d.JournalGrades)
-                .HasForeignKey(jg => jg.IdDate);
+            modelBuilder.Entity<JournalGrade>(entity =>
+            {
+                // Указываем первичный ключ и автоинкремент
+                entity.HasKey(jg => jg.IdRecord)
+                      .HasName("PK_ЖурналОценка_id_записи");
+
+                entity.Property(jg => jg.IdRecord)
+                      .HasColumnName("id_записи")
+                      .UseIdentityAlwaysColumn() // Для SERIAL в PostgreSQL
+                      .ValueGeneratedOnAdd(); // Добавьте эту строку
+
+                entity.Property(jg => jg.IdStudentClass)
+                      .HasColumnName("id_учениккласс")
+                      .IsRequired();
+
+                entity.Property(jg => jg.IdTeacherSubject)
+                      .HasColumnName("id_учительпредмет")
+                      .IsRequired();
+
+                entity.Property(jg => jg.IdDate)
+                      .HasColumnName("id_дата")
+                      .IsRequired();
+
+                entity.Property(jg => jg.Grade)
+                      .HasColumnName("Оценка")
+                      .IsRequired();
+
+                // Настройка внешних ключей
+                entity.HasOne(jg => jg.StudentClass)
+                      .WithMany(sc => sc.JournalGrades)
+                      .HasForeignKey(jg => jg.IdStudentClass)
+                      .HasConstraintName("FK_ЖурналОценка_УченикКласс");
+
+                entity.HasOne(jg => jg.TeacherSubject)
+                      .WithMany(ts => ts.JournalGrades)
+                      .HasForeignKey(jg => jg.IdTeacherSubject)
+                      .HasConstraintName("FK_ЖурналОценка_УчительПредмет");
+
+                entity.HasOne(jg => jg.Date)
+                      .WithMany(d => d.JournalGrades)
+                      .HasForeignKey(jg => jg.IdDate)
+                      .HasConstraintName("FK_ЖурналОценка_Дата");
+            });
         }
     }
 }

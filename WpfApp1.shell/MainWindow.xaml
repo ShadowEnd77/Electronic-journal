@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.shell"
         mc:Ignorable="d"
-        Height="600" Width="900" MinWidth="1200" MinHeight="700">
+        Height="600" Width="900" MinWidth="1265" MinHeight="700">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -23,21 +23,18 @@
 
         <!-- Верхняя полоска -->
         <Border Background="#7685E5" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,10">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="{Binding Username}" 
-                           Background="White"
-                           FontSize="16" 
-                           Foreground="Black" 
-                           RenderTransformOrigin="0.5,0.5" Width="199" Height="22">
-                    <TextBlock.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="-1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </TextBlock.RenderTransform>
-                </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Border Background="White" 
+                CornerRadius="4" 
+                Padding="8,4" 
+                Margin="5"
+                VerticalAlignment="Center">
+                    <TextBlock x:Name="UserInfoTextBlock" 
+                      FontSize="14" 
+                      Foreground="#38427C"
+                      FontWeight="SemiBold"
+                      VerticalAlignment="Center"/>
+                </Border>
             </StackPanel>
         </Border>
 
@@ -59,7 +56,7 @@
         <Border Background="#FFFFFF" Grid.ColumnSpan="2" Margin="133,10,0,0" Grid.Row="1">
             <ContentControl x:Name="MainContent" Grid.ColumnSpan="2"/>
         </Border>
-        
+
         <Border Background="#38427C" Margin="133,40,50,0" Grid.RowSpan="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
         </Border>
@@ -72,6 +69,6 @@
                 Margin="0,-20,0,10" Width="142" Height="21" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
-        
+
     </Grid>
 </Window>
