@@ -6,6 +6,36 @@
              xmlns:vm="clr-namespace:WpfApp1.shell.ViewModel"
              mc:Ignorable="d"
              MinWidth="900" MinHeight="600">
+    <UserControl.Resources>
+        <!-- Новый стиль для кнопок -->
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#38427C"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                CornerRadius="10" 
+                                Background="White"
+                                BorderBrush="#3A4A9F" 
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,18 +49,24 @@
             <ComboBox ItemsSource="{Binding Quarters}" 
                      SelectedItem="{Binding SelectedQuarter}"
                      DisplayMemberPath="Name"
-                     Width="200" Margin="8"
+                     Width="131" Margin="8"
                      VerticalAlignment="Center"/>
 
             <TextBlock Text="Предмет:" FontSize="16" FontWeight="Bold" Foreground="White" Margin="10" VerticalAlignment="Center"/>
             <ComboBox ItemsSource="{Binding Subjects}" 
                      SelectedItem="{Binding SelectedSubject}"
                      DisplayMemberPath="Name"
-                     Width="200" Margin="8"
+                     Width="145" Margin="8"
                      VerticalAlignment="Center"/>
 
-            <Button Content="Обновить" Command="{Binding RefreshCommand}" Margin="10" Padding="10,5"/>
-            <Button Content="Сохранить все" Command="{Binding SaveAllCommand}" Margin="10" Padding="10,5"/>
+            <Button Content="   Обновить   " Command="{Binding RefreshCommand}" Margin="8" Padding="10,5" Style="{StaticResource CustomButtonStyle}"/>
+            <Button Content="   Сохранить все   " Command="{Binding SaveAllCommand}" Margin="8" Padding="10,5" Style="{StaticResource CustomButtonStyle}"/>
+            <!-- Новая кнопка для расчета средней оценки -->
+            <Button Content="   Средняя оценка   " 
+            Command="{Binding CalculateAverageCommand}" 
+            Margin="8" 
+            Padding="10,5" 
+            Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
 
         <!-- Таблица оценок -->

@@ -12,6 +12,7 @@
     <None Remove="View\logo.jpg" />
     <None Remove="View\school.jpg" />
     <None Remove="View\school_icon.ico" />
+    <None Remove="View\фон.png" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -35,6 +36,7 @@
 	  <Resource Include="View\logo.jpg" />
 	  <Resource Include="View\school.jpg" />
 	  <Resource Include="View\school_icon.ico" />
+	  <Resource Include="View\фон.png" />
 	</ItemGroup>
 
 </Project>
