@@ -6,7 +6,6 @@ using System.Linq;
 using WpfApp1.shell.Model;
 using WpfApp1.shell.Model.Entities;
 using WpfApp1.shell.ViewModel.Teachers;
-using WpfApp1.shell.ViewModel;
 
 namespace WpfApp1.shell.ViewModel
 {
@@ -15,7 +14,8 @@ namespace WpfApp1.shell.ViewModel
         private readonly SchoolDbContext _dbContext;
         private int _currentTeacherId;
         private Quarter _selectedQuarter;
-        private List<ScheduleTeacherDay> _scheduleDays;
+        private string _searchDate;
+        private List<ScheduleTeacherDay> _allScheduleDays;
 
         public List<Quarter> Quarters { get; private set; }
         public Quarter SelectedQuarter
@@ -28,10 +28,21 @@ namespace WpfApp1.shell.ViewModel
             }
         }
 
-        public List<ScheduleTeacherDay> ScheduleDays
+        public string SearchDate
         {
-            get => _scheduleDays;
-            set => SetProperty(ref _scheduleDays, value);
+            get => _searchDate;
+            set
+            {
+                SetProperty(ref _searchDate, value);
+                ApplyDateFilter();
+            }
+        }
+
+        private List<ScheduleTeacherDay> _filteredScheduleDays;
+        public List<ScheduleTeacherDay> FilteredScheduleDays
+        {
+            get => _filteredScheduleDays;
+            set => SetProperty(ref _filteredScheduleDays, value);
         }
 
         public SchedulePageViewModel(SchoolDbContext dbContext, int teacherId)
@@ -78,6 +89,7 @@ namespace WpfApp1.shell.ViewModel
                 {
                     Date = g.Key,
                     DayOfWeek = g.Key.ToString("dddd"),
+                    FormattedDate = g.Key.ToString("dd.MM.yyyy"),
                     Subjects = g.Select(js => new ScheduleTeacherSubject
                     {
                         SubjectName = js.Subject?.Name ?? "Без названия",
@@ -87,8 +99,27 @@ namespace WpfApp1.shell.ViewModel
                 .OrderBy(d => d.Date)
                 .ToList();
 
-            ScheduleDays = days;
+            _allScheduleDays = days;
+            ApplyDateFilter();
+        }
+
+        private void ApplyDateFilter()
+        {
+            if (string.IsNullOrWhiteSpace(SearchDate))
+            {
+                FilteredScheduleDays = _allScheduleDays;
+            }
+            else
+            {
+                var searchParts = SearchDate.Split('.');
+                var normalizedSearch = string.Join(".", searchParts.Select(p => p.Trim()));
+
+                FilteredScheduleDays = _allScheduleDays
+                    .Where(d => d.FormattedDate.Contains(normalizedSearch))
+                    .ToList();
+            }
         }
     }
 
+    
 }

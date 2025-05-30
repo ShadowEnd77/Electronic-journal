@@ -2,12 +2,10 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using WpfApp1.shell.Model;
 using WpfApp1.shell.Model.Entities;
 using WpfApp1.shell.ViewModel.Students;
-using WpfApp1.shell.ViewModel;
 
 namespace WpfApp1.shell.ViewModel
 {
@@ -16,7 +14,8 @@ namespace WpfApp1.shell.ViewModel
         private readonly SchoolDbContext _dbContext;
         private int _currentStudentId;
         private Quarter _selectedQuarter;
-        private List<ScheduleStudentDay> _scheduleDays;
+        private string _searchDate;
+        private List<ScheduleStudentDay> _allScheduleDays;
 
         public List<Quarter> Quarters { get; private set; }
         public Quarter SelectedQuarter
@@ -29,10 +28,21 @@ namespace WpfApp1.shell.ViewModel
             }
         }
 
-        public List<ScheduleStudentDay> ScheduleDays
+        public string SearchDate
         {
-            get => _scheduleDays;
-            set => SetProperty(ref _scheduleDays, value);
+            get => _searchDate;
+            set
+            {
+                SetProperty(ref _searchDate, value);
+                ApplyDateFilter();
+            }
+        }
+
+        private List<ScheduleStudentDay> _filteredScheduleDays;
+        public List<ScheduleStudentDay> FilteredScheduleDays
+        {
+            get => _filteredScheduleDays;
+            set => SetProperty(ref _filteredScheduleDays, value);
         }
 
         public SchedulePageStudentViewModel(SchoolDbContext dbContext, int studentId)
@@ -87,7 +97,7 @@ namespace WpfApp1.shell.ViewModel
                 {
                     Date = g.Key,
                     DayOfWeek = g.Key.ToString("dddd"),
-                    // Убираем группировку по предметам - оставляем все записи
+                    FormattedDate = g.Key.ToString("dd.MM.yyyy"),
                     Subjects = g.Select(js => new ScheduleStudentSubject
                     {
                         SubjectName = js.Subject?.Name ?? "Без названия",
@@ -97,7 +107,25 @@ namespace WpfApp1.shell.ViewModel
                 .OrderBy(d => d.Date)
                 .ToList();
 
-            ScheduleDays = days;
+            _allScheduleDays = days;
+            ApplyDateFilter();
+        }
+
+        private void ApplyDateFilter()
+        {
+            if (string.IsNullOrWhiteSpace(SearchDate))
+            {
+                FilteredScheduleDays = _allScheduleDays;
+            }
+            else
+            {
+                var searchParts = SearchDate.Split('.');
+                var normalizedSearch = string.Join(".", searchParts.Select(p => p.Trim()));
+
+                FilteredScheduleDays = _allScheduleDays
+                    .Where(d => d.FormattedDate.Contains(normalizedSearch))
+                    .ToList();
+            }
         }
 
         private static string FormatTeacherName(Teacher teacher)
@@ -112,5 +140,4 @@ namespace WpfApp1.shell.ViewModel
         }
     }
 
-    
 }

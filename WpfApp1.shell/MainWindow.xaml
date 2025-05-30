@@ -6,6 +6,52 @@
         xmlns:local="clr-namespace:WpfApp1.shell"
         mc:Ignorable="d"
         Height="600" Width="900" MinWidth="1265" MinHeight="700">
+    <Window.Resources>
+        <!-- Стиль для кнопок с закругленными краями и белым фоном, шрифт как фон -->
+        <Style x:Key="WhiteButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#7685E5"/>
+            <!-- цвет текста совпадает с фоном -->
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" BlurRadius="4" ShadowDepth="2" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E0E0E0"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#C0C0C0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Стиль для текста заголовка -->
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#38427C"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -25,15 +71,15 @@
         <Border Background="#7685E5" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
                 <Border Background="White" 
-                CornerRadius="4" 
-                Padding="8,4" 
-                Margin="5"
-                VerticalAlignment="Center">
+                        CornerRadius="4" 
+                        Padding="8,4" 
+                        Margin="5"
+                        VerticalAlignment="Center">
                     <TextBlock x:Name="UserInfoTextBlock" 
-                      FontSize="14" 
-                      Foreground="#38427C"
-                      FontWeight="SemiBold"
-                      VerticalAlignment="Center"/>
+                               FontSize="14" 
+                               Foreground="#38427C"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
                 </Border>
             </StackPanel>
         </Border>
@@ -45,11 +91,16 @@
         <!-- Левая панель с кнопками -->
         <Border Background="#7685E5" Grid.Column="0" Margin="0,40,67,0" Grid.RowSpan="2">
             <StackPanel VerticalAlignment="Top">
-                <Button Content="Расписание" Margin="10" Click="ScheduleButton_Click"/>
-                <Button Content="Оценки" Margin="10" Click="GradesButton_Click"/>
-                <Button Content="Школа" Margin="10" Click="SchoolButton_Click"/>
+                <Button Content="Расписание" Margin="10" Style="{StaticResource WhiteButtonStyle}" 
+                        Click="ScheduleButton_Click"
+                        ToolTip="Просмотр расписания занятий"/>
+                <Button Content="Оценки" Margin="10" Style="{StaticResource WhiteButtonStyle}" 
+                        Click="GradesButton_Click"
+                        ToolTip="Просмотр оценок"/>
+                <Button Content="Школа" Margin="10" Style="{StaticResource WhiteButtonStyle}" 
+                        Click="SchoolButton_Click"
+                        ToolTip="Информация о школе"/>
             </StackPanel>
-
         </Border>
 
         <!-- Основная область с заголовком и текстом -->
@@ -61,14 +112,15 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"/>
         </Border>
 
+        <!-- Логотип и название -->
         <Border Margin="0,0,67,10" Grid.ColumnSpan="2" Height="40" VerticalAlignment="Center">
-            <StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
                 <Image Source="/View/logo.jpg" Width="38" Height="40" HorizontalAlignment="Left"/>
-                <TextBlock Text="Interio"
-                 FontSize="12"
-                Margin="0,-20,0,10" Width="142" Height="21" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Электронный журнал"
+                           Style="{StaticResource HeaderTextStyle}"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"/>
             </StackPanel>
         </Border>
-
     </Grid>
 </Window>

@@ -1,10 +1,10 @@
-﻿// ScheduleStudentDay.cs
-namespace WpfApp1.shell.ViewModel.Students
+﻿namespace WpfApp1.shell.ViewModel.Students
 {
     public class ScheduleStudentDay
     {
         public DateTime Date { get; set; }
         public string DayOfWeek { get; set; }
+        public string FormattedDate { get; set; }
         public List<ScheduleStudentSubject> Subjects { get; set; }
     }
 

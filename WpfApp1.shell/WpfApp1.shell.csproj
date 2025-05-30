@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="View\9_k3xfk5kEw.jpg" />
     <None Remove="View\logo.jpg" />
+    <None Remove="View\school_icon.ico" />
     <None Remove="View\Untitled.png" />
   </ItemGroup>
 
@@ -30,8 +30,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="View\9_k3xfk5kEw.jpg" />
 	  <Resource Include="View\logo.jpg" />
+	  <Resource Include="View\school_icon.ico" />
 	  <Resource Include="View\Untitled.png" />
 	</ItemGroup>
 

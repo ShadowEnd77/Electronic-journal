@@ -8,69 +8,113 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <!-- Основной синий фон -->
+        <!-- Верхняя панель с синим фоном -->
         <Border Background="#5E6BBD" 
-        Margin="0,0,0,10"
-        Padding="15">
+                Margin="0,0,0,10"
+                Padding="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Белый блок с текстом -->
-            <Border Background="White"
-            CornerRadius="8"
-            Padding="12,5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center" Margin="15,0,0,0">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="8" 
-                            Opacity="0.2" 
-                            ShadowDepth="2"/>
-                </Border.Effect>
-                <TextBlock Text="Расписание занятий"
-                FontSize="20"
-                FontWeight="Bold"
-                Foreground="#5E6BBD"
-                VerticalAlignment="Center"/>
-            </Border>
+                <!-- Заголовок -->
+                <Border Background="White"
+                        CornerRadius="8"
+                        Padding="12,5"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Margin="15,0,0,0">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="8" 
+                                         Opacity="0.2" 
+                                         ShadowDepth="2"/>
+                    </Border.Effect>
+                    <TextBlock Text="Расписание занятий"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#5E6BBD"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <!-- Выбор четверти -->
+                <StackPanel Grid.Column="1" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Четверть:" 
+                               VerticalAlignment="Center"
+                               Margin="10,0,10,0"
+                               Foreground="White"/>
+                    <ComboBox ItemsSource="{Binding Quarters}"
+                              SelectedItem="{Binding SelectedQuarter}"
+                              DisplayMemberPath="Name"
+                              Width="200"/>
+                </StackPanel>
+
+                <!-- Поиск по дате -->
+                <StackPanel Grid.Column="2" 
+                            Orientation="Horizontal" 
+                            VerticalAlignment="Center"
+                            Margin="10,0">
+                    <TextBlock Text="Поиск по дате:" 
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"
+                               Foreground="White"/>
+                    <TextBox Text="{Binding SearchDate, UpdateSourceTrigger=PropertyChanged}" 
+                             Width="150" 
+                             Padding="5"
+                             VerticalAlignment="Center"
+                             ToolTip="Формат: ДД.ММ.ГГГГ или ДД.ММ"/>
+                </StackPanel>
+            </Grid>
         </Border>
 
-        <!-- Выбор четверти -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Четверть:" 
-                       VerticalAlignment="Center"
-                       Margin="10,0,10,0"/>
-            <ComboBox ItemsSource="{Binding Quarters}"
-                      SelectedItem="{Binding SelectedQuarter}"
-                      DisplayMemberPath="Name"
-                      Width="200"/>
-        </StackPanel>
-
         <!-- Основное содержимое с белым фоном -->
-        <Border Grid.Row="2" Background="White" Margin="10">
+        <Border Grid.Row="1" Background="White" Margin="10">
             <ScrollViewer>
-                <ItemsControl ItemsSource="{Binding ScheduleDays}">
+                <ItemsControl ItemsSource="{Binding FilteredScheduleDays}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="#DDD" BorderThickness="0,0,0,1" Margin="10,0,0,10">
+                            <!-- Карточка дня недели -->
+                            <Border Background="White"
+                                    BorderBrush="#E0E0E0"
+                                    BorderThickness="1"
+                                    CornerRadius="8"
+                                    Margin="10"
+                                    Padding="15">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="8" 
+                                                     Opacity="0.1" 
+                                                     ShadowDepth="2"
+                                                     Direction="270"/>
+                                </Border.Effect>
+
                                 <StackPanel>
                                     <!-- Заголовок дня -->
                                     <TextBlock Text="{Binding DayOfWeek, StringFormat={}{0}:}"
                                                FontSize="16"
                                                FontWeight="Bold"
-                                               Margin="0,5"/>
+                                               Margin="0,0,0,5"/>
 
                                     <TextBlock Text="{Binding Date, StringFormat={}Дата: {0:dd.MM.yyyy}}"
                                                FontSize="14"
+                                               Foreground="#555"
                                                Margin="0,0,0,10"/>
 
                                     <!-- Предметы -->
                                     <ItemsControl ItemsSource="{Binding Subjects}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Border BorderBrush="#EEE" BorderThickness="1" CornerRadius="4" Margin="0,0,0,5" Padding="10">
+                                                <Border BorderBrush="#EEE" 
+                                                        BorderThickness="1" 
+                                                        CornerRadius="4" 
+                                                        Margin="0,0,0,5" 
+                                                        Padding="10">
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
