@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// GradesPageViewModel.cs
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
-using System.Reactive.Subjects;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using WpfApp1.shell.Model;
 using WpfApp1.shell.Model.Entities;
@@ -34,6 +36,7 @@ namespace WpfApp1.shell.ViewModel
         private string _studentName;
         private Student _student;
         private ObservableCollection<GradeEntry> _grades = new();
+        private string _averageGrade;
 
         public string StudentName
         {
@@ -52,6 +55,12 @@ namespace WpfApp1.shell.ViewModel
             get => _grades;
             set => SetProperty(ref _grades, value);
         }
+
+        public string AverageGrade
+        {
+            get => _averageGrade;
+            set => SetProperty(ref _averageGrade, value);
+        }
     }
 
     public class GradesPageViewModel : BindableBase
@@ -63,11 +72,11 @@ namespace WpfApp1.shell.ViewModel
         private ObservableCollection<Subjekt> _subjects;
         private ObservableCollection<Date> _dates;
         private ObservableCollection<StudentGradesRow> _studentGradesRows;
+        private bool _isAverageMode;
 
         private Student _selectedStudent;
         private Quarter _selectedQuarter;
         private Subjekt _selectedSubject;
-
 
         public ObservableCollection<Student> Students
         {
@@ -97,6 +106,12 @@ namespace WpfApp1.shell.ViewModel
         {
             get => _studentGradesRows;
             set => SetProperty(ref _studentGradesRows, value);
+        }
+
+        public bool IsAverageMode
+        {
+            get => _isAverageMode;
+            set => SetProperty(ref _isAverageMode, value);
         }
 
         public Student SelectedStudent
@@ -132,6 +147,7 @@ namespace WpfApp1.shell.ViewModel
 
         public ICommand RefreshCommand { get; private set; }
         public ICommand SaveAllCommand { get; private set; }
+        public ICommand CalculateAverageCommand { get; private set; }
 
         public GradesPageViewModel()
         {
@@ -160,6 +176,13 @@ namespace WpfApp1.shell.ViewModel
             });
 
             SaveAllCommand = new RelayCommand(_ => SaveAllGrades());
+            CalculateAverageCommand = new RelayCommand(_ => ToggleAverageMode());
+        }
+
+        private void ToggleAverageMode()
+        {
+            IsAverageMode = !IsAverageMode;
+            LoadGrades();
         }
 
         private void LoadInitialData()
@@ -209,33 +232,68 @@ namespace WpfApp1.shell.ViewModel
 
             StudentGradesRows.Clear();
 
-            foreach (var student in Students)
+            if (IsAverageMode)
             {
-                var row = new StudentGradesRow
+                // Режим отображения средних оценок
+                foreach (var student in Students)
                 {
-                    StudentName = $"{student.LastName} {student.FirstName} {student.Patronymic}",
-                    Student = student,
-                    Grades = new ObservableCollection<GradeEntry>()
-                };
-
-                foreach (var date in Dates)
-                {
-                    var grade = _dbContext.JournalGrades
-                        .Include(jg => jg.TeacherSubject)
-                        .ThenInclude(ts => ts.Subject)
-                        .FirstOrDefault(g =>
+                    var grades = _dbContext.JournalGrades
+                        .Where(g =>
                             g.StudentClass.IdStudent == student.IdStudent &&
-                            g.Date.IdDate == date.IdDate &&
-                            g.TeacherSubject.Subject.IdSubject == SelectedSubject.IdSubject);
+                            g.TeacherSubject.Subject.IdSubject == SelectedSubject.IdSubject &&
+                            g.Date.IdQuarter == SelectedQuarter.IdQuarter)
+                        .Select(g => (double?)g.Grade) // Исправление здесь
+                        .ToList();
 
-                    row.Grades.Add(new GradeEntry
+                    string averageDisplay = "-";
+
+                    if (grades.Any() && grades.All(g => g.HasValue))
                     {
-                        Date = date,
-                        Grade = grade?.Grade.ToString() ?? "-"
-                    });
-                }
+                        double average = grades.Average().Value; // Явное преобразование
+                        averageDisplay = average.ToString("F2");
+                    }
 
-                StudentGradesRows.Add(row);
+                    var row = new StudentGradesRow
+                    {
+                        StudentName = $"{student.LastName} {student.FirstName} {student.Patronymic}",
+                        Student = student,
+                        AverageGrade = averageDisplay
+                    };
+
+                    StudentGradesRows.Add(row);
+                }
+            }
+            else
+            {
+                // Обычный режим (оценки по датам)
+                foreach (var student in Students)
+                {
+                    var row = new StudentGradesRow
+                    {
+                        StudentName = $"{student.LastName} {student.FirstName} {student.Patronymic}",
+                        Student = student,
+                        Grades = new ObservableCollection<GradeEntry>()
+                    };
+
+                    foreach (var date in Dates)
+                    {
+                        var grade = _dbContext.JournalGrades
+                            .Include(jg => jg.TeacherSubject)
+                            .ThenInclude(ts => ts.Subject)
+                            .FirstOrDefault(g =>
+                                g.StudentClass.IdStudent == student.IdStudent &&
+                                g.Date.IdDate == date.IdDate &&
+                                g.TeacherSubject.Subject.IdSubject == SelectedSubject.IdSubject);
+
+                        row.Grades.Add(new GradeEntry
+                        {
+                            Date = date,
+                            Grade = grade?.Grade.ToString() ?? "-"
+                        });
+                    }
+
+                    StudentGradesRows.Add(row);
+                }
             }
         }
 
@@ -283,7 +341,6 @@ namespace WpfApp1.shell.ViewModel
                         var student = row.Student ?? throw new ArgumentNullException("Студент не найден");
                         var date = gradeEntry.Date ?? throw new ArgumentNullException("Дата не найдена");
 
-                        // Явная загрузка связанных данных
                         var dbEntry = _dbContext.JournalGrades
                             .Include(jg => jg.TeacherSubject)
                                 .ThenInclude(ts => ts.Subject)
@@ -304,7 +361,6 @@ namespace WpfApp1.shell.ViewModel
 
                             dbEntry = new JournalGrade
                             {
-                                // IdRecord не указываем!
                                 IdStudentClass = studentClass.IdStudentClass,
                                 IdTeacherSubject = teacherSubject.IdTeacherSubject,
                                 IdDate = date.IdDate,
@@ -333,7 +389,6 @@ namespace WpfApp1.shell.ViewModel
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        // Выводим внутреннее исключение
                         string errorMessage = ex.InnerException?.Message ?? ex.Message;
                         MessageBox.Show($"Ошибка сохранения: {errorMessage}");
                     }
@@ -346,7 +401,7 @@ namespace WpfApp1.shell.ViewModel
         }
     }
 
-    public class RelayCommand : ICommand    
+    public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Predicate<object> _canExecute;
@@ -365,6 +420,28 @@ namespace WpfApp1.shell.ViewModel
         {
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
+        }
+    }
+
+    public class BoolToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool boolValue)
+            {
+                // Если параметр "inverse", инвертируем значение
+                if (parameter is string param && param.ToLower() == "inverse")
+                {
+                    return boolValue ? Visibility.Collapsed : Visibility.Visible;
+                }
+                return boolValue ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

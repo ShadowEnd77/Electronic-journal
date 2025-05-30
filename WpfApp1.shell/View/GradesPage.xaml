@@ -4,10 +4,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:WpfApp1.shell.ViewModel"
+             xmlns:local="clr-namespace:WpfApp1.shell.View"
              mc:Ignorable="d"
              MinWidth="900" MinHeight="600">
     <UserControl.Resources>
-        <!-- Новый стиль для кнопок -->
+        <!-- Стиль для кнопок -->
         <Style x:Key="CustomButtonStyle" TargetType="Button">
             <Setter Property="Foreground" Value="#38427C"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -34,6 +35,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!-- Конвертер для переключения видимости -->
+        <vm:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -61,12 +65,7 @@
 
             <Button Content="   Обновить   " Command="{Binding RefreshCommand}" Margin="8" Padding="10,5" Style="{StaticResource CustomButtonStyle}"/>
             <Button Content="   Сохранить все   " Command="{Binding SaveAllCommand}" Margin="8" Padding="10,5" Style="{StaticResource CustomButtonStyle}"/>
-            <!-- Новая кнопка для расчета средней оценки -->
-            <Button Content="   Средняя оценка   " 
-            Command="{Binding CalculateAverageCommand}" 
-            Margin="8" 
-            Padding="10,5" 
-            Style="{StaticResource CustomButtonStyle}"/>
+            <Button Content="   Средняя оценка   " Command="{Binding CalculateAverageCommand}" Margin="8" Padding="10,5" Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
 
         <!-- Таблица оценок -->
@@ -81,11 +80,13 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Пустая ячейка -->
-                <Border Grid.Row="0" Grid.Column="0" Width="200" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0"/>
+                <!-- Пустая ячейка (скрыта в режиме средних) -->
+                <Border Grid.Row="0" Grid.Column="0" Width="200" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0"
+                        Visibility="{Binding IsAverageMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=inverse}"/>
 
-                <!-- Шапка с датами -->
-                <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Dates}">
+                <!-- Шапка с датами (скрыта в режиме средних) -->
+                <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Dates}"
+                             Visibility="{Binding IsAverageMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=inverse}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -102,6 +103,19 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+                <!-- Шапка "Средняя оценка" (видна только в режиме средних) -->
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                        Visibility="{Binding IsAverageMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid>
+                       
+                        <Border Width="100" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0" HorizontalAlignment="Left" Margin="200,0,0,0">
+                            <TextBlock Text="Средняя оценка" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
                 <!-- Список студентов -->
                 <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding StudentGradesRows}">
                     <ItemsControl.ItemTemplate>
@@ -115,8 +129,9 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <!-- Оценки -->
-                <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding StudentGradesRows}">
+                <!-- Оценки по датам (скрыты в режиме средних) -->
+                <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding StudentGradesRows}"
+                             Visibility="{Binding IsAverageMode, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=inverse}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -143,6 +158,29 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Средние оценки (видны только в режиме средних) -->
+                <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding StudentGradesRows}"
+                             Visibility="{Binding IsAverageMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Border Width="100" Height="40" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding AverageGrade}" 
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
