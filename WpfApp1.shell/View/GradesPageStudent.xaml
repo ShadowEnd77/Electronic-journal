@@ -25,7 +25,7 @@
         </StackPanel>
 
         <!-- Матрица оценок -->
-        <ScrollViewer Grid.Row="2" Margin="10,0,0,0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -36,35 +36,37 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Пустая ячейка в левом верхнем углу -->
-                <Border Grid.Row="0" Margin="7,0,0,0" Grid.Column="0" Width="120" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0"/>
+                <!-- Пустая ячейка в углу -->
+                <Border Grid.Row="0" Grid.Column="0" MinWidth="120" Height="40" 
+                        BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0" Margin="10,0,0,0"/>
 
                 <!-- Шапка с предметами -->
                 <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Subjects}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
+                            <UniformGrid Rows="1"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Width="120" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0">
+                            <Border MinWidth="120" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0">
                                 <TextBlock Text="{Binding Name}" 
                                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                                          FontWeight="Bold" ToolTip="{Binding Name}"/>
+                                          FontWeight="Bold" ToolTip="{Binding Name}"
+                                          TextWrapping="Wrap" TextAlignment="Center"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
                 <!-- Список дат -->
-                <ItemsControl Grid.Row="1" Margin="7,0,0,0" Grid.Column="0" ItemsSource="{Binding Dates}">
+                <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Dates}" Margin="10,0,0,0">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Width="120" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0">
+                            <Border MinWidth="120" Height="40" BorderBrush="Gray" BorderThickness="1" Background="#F0F0F0" >
                                 <TextBlock Text="{Binding Date.DateValue, StringFormat={}{0:dd.MM.yyyy}}" 
-                           Margin="10,0" VerticalAlignment="Center"
-                           FontWeight="Bold"/>
+                                           Margin="20,0" VerticalAlignment="Center"
+                                           FontWeight="Bold"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -82,12 +84,12 @@
                             <ItemsControl ItemsSource="{Binding GradesForDate}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
+                                        <UniformGrid Rows="1"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Width="120" Height="40" BorderBrush="Gray" BorderThickness="1">
+                                        <Border MinWidth="120" Height="40" BorderBrush="Gray" BorderThickness="1">
                                             <TextBlock Text="{Binding}" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                                       FontSize="14" FontWeight="Bold"/>
