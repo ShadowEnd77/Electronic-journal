@@ -25,7 +25,7 @@
                 <TextBlock
                     FontSize="20"
                     FontWeight="Bold"
-                    Foreground="#5E6BBD" Margin="0,-5,0,0"><Run Language="ru-ru" Text="Оценки"/></TextBlock>
+                    Foreground="#38427C" Margin="0,-5,0,0"><Run Language="ru-ru" Text="Оценки"/></TextBlock>
             </Border>
             <TextBlock Text="Четверть:" FontSize="16" FontWeight="Bold" Foreground="White" Margin="10" VerticalAlignment="Center"/>
             <ComboBox ItemsSource="{Binding Quarters}" 
@@ -63,7 +63,7 @@
             </Button>
             <TextBlock Text="Поиск по дате:"
                 Foreground="White"
-                FontSize="16" Height="26"/>
+                FontSize="16" Height="26" FontWeight="Bold"/>
             <TextBox Text="{Binding SearchDate, UpdateSourceTrigger=PropertyChanged}" 
                 Width="150" 
                 Padding="5"

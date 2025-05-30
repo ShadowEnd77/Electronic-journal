@@ -37,7 +37,7 @@
                     <TextBlock Text="Расписание занятий"
                                FontSize="20"
                                FontWeight="Bold"
-                               Foreground="#5E6BBD"
+                               Foreground="#38427C"
                                VerticalAlignment="Center"/>
                 </Border>
 
