@@ -30,7 +30,13 @@ namespace WpfApp1.shell
 
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>(); // Убрано mainWindow.ShowLogin()
+            var mainWindow = Container.Resolve<MainWindow>();
+
+            // Устанавливаем иконку приложения
+            mainWindow.Icon = new System.Windows.Media.Imaging.BitmapImage(
+                new System.Uri("pack://application:,,,/school_icon.ico"));
+
+            return mainWindow;
         }
     }
 }

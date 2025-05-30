@@ -45,7 +45,8 @@
                     <TextBlock Text="Четверть:" 
                                VerticalAlignment="Center"
                                Margin="10,0,10,0"
-                               Foreground="White"/>
+                               Foreground="White"
+                               FontSize="16"/>
                     <ComboBox ItemsSource="{Binding Quarters}"
                               SelectedItem="{Binding SelectedQuarter}"
                               DisplayMemberPath="Name"
@@ -60,7 +61,8 @@
                     <TextBlock Text="Поиск по дате:" 
                                VerticalAlignment="Center"
                                Margin="0,0,10,0"
-                               Foreground="White"/>
+                               Foreground="White"
+                               FontSize="16"/>
                     <TextBox Text="{Binding SearchDate, UpdateSourceTrigger=PropertyChanged}" 
                              Width="150" 
                              Padding="5"

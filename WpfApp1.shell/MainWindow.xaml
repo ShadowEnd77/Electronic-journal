@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.shell"
         mc:Ignorable="d"
-        Height="600" Width="900" MinWidth="1265" MinHeight="700">
+        Height="600" Width="900" MinWidth="1265" MinHeight="700"
+        Icon="/school_icon.ico">
     <Window.Resources>
         <!-- Стиль для кнопок с закругленными краями и белым фоном, шрифт как фон -->
         <Style x:Key="WhiteButtonStyle" TargetType="Button">
@@ -91,13 +92,13 @@
         <!-- Левая панель с кнопками -->
         <Border Background="#7685E5" Grid.Column="0" Margin="0,40,67,0" Grid.RowSpan="2">
             <StackPanel VerticalAlignment="Top">
-                <Button Content="Расписание" Margin="10" Style="{StaticResource WhiteButtonStyle}" 
+                <Button Content="Расписание" Margin="10" Foreground="#38427C" Style="{StaticResource WhiteButtonStyle}" 
                         Click="ScheduleButton_Click"
                         ToolTip="Просмотр расписания занятий"/>
-                <Button Content="Оценки" Margin="10" Style="{StaticResource WhiteButtonStyle}" 
+                <Button Content="Оценки" Margin="10" Foreground="#38427C" Style="{StaticResource WhiteButtonStyle}" 
                         Click="GradesButton_Click"
                         ToolTip="Просмотр оценок"/>
-                <Button Content="Школа" Margin="10" Style="{StaticResource WhiteButtonStyle}" 
+                <Button Content="Школа" Margin="10" Foreground="#38427C" Style="{StaticResource WhiteButtonStyle}" 
                         Click="SchoolButton_Click"
                         ToolTip="Информация о школе"/>
             </StackPanel>
@@ -116,10 +117,18 @@
         <Border Margin="0,0,67,10" Grid.ColumnSpan="2" Height="40" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
                 <Image Source="/View/logo.jpg" Width="38" Height="40" HorizontalAlignment="Left"/>
-                <TextBlock Text="Электронный журнал"
-                           Style="{StaticResource HeaderTextStyle}"
-                           Margin="10,0,0,0"
-                           VerticalAlignment="Center"/>
+                <Border Background="White"
+                    CornerRadius="20"
+                    Padding="10,0" Height="26">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="8" Opacity="0.2" ShadowDepth="2"/>
+                    </Border.Effect>
+                    <TextBlock Text="Электронный журнал"
+                            Style="{StaticResource HeaderTextStyle}"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="18"/>
+                </Border>
             </StackPanel>
         </Border>
     </Grid>
