@@ -31,9 +31,8 @@
             <ComboBox ItemsSource="{Binding Quarters}" 
                      SelectedItem="{Binding SelectedQuarter}"
                      DisplayMemberPath="Name"
-                     Width="200" Margin="8"
+                     Width="154" Margin="8"
                      VerticalAlignment="Center"/>
-
             <!-- Закругленная кнопка Обновить -->
             <Button Content="Обновить" Command="{Binding RefreshCommand}" Margin="10" Padding="10,5" Height="24" Width="78" Foreground="#38427C">
                 <Button.Template>
@@ -69,6 +68,33 @@
                 Width="150" 
                 Padding="5"
                 ToolTip="Формат: ДД.ММ.ГГГГ или ДД.ММ" Height="27" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <Button Content="Итоговые" Command="{Binding ShowAveragesCommand}" Padding="10,5" Height="24" Width="78" Foreground="#38427C" Margin="10,0,0,0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" 
+                    CornerRadius="10" 
+                    Background="White"
+                    BorderBrush="#3A4A9F" 
+                    BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
 
         <!-- Матрица оценок -->

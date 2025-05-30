@@ -16,11 +16,12 @@ namespace WpfApp1.shell.ViewModel
         private ObservableCollection<Subjekt> _subjects;
         private ObservableCollection<Quarter> _quarters;
         private ObservableCollection<DateWithGrades> _dates;
-        private ObservableCollection<DateWithGrades> _allDates; // Все даты (для фильтрации)
+        private ObservableCollection<DateWithGrades> _allDates;
         private Quarter _selectedQuarter;
         private Student _currentStudent;
         private readonly int _accountId;
         private string _searchDate;
+        private bool _showAverages;
 
         public ObservableCollection<Subjekt> Subjects
         {
@@ -71,6 +72,7 @@ namespace WpfApp1.shell.ViewModel
         }
 
         public ICommand RefreshCommand { get; }
+        public ICommand ShowAveragesCommand { get; }
 
         public GradesPageStudentViewModel(int accountId)
         {
@@ -81,7 +83,17 @@ namespace WpfApp1.shell.ViewModel
             Dates = new ObservableCollection<DateWithGrades>();
             _allDates = new ObservableCollection<DateWithGrades>();
 
-            RefreshCommand = new RelayCommand(_ => LoadGradesData());
+            RefreshCommand = new RelayCommand(_ =>
+            {
+                _showAverages = false;
+                LoadGradesData();
+            });
+
+            ShowAveragesCommand = new RelayCommand(_ =>
+            {
+                _showAverages = true;
+                CalculateAverages();
+            });
 
             LoadInitialData();
         }
@@ -165,6 +177,58 @@ namespace WpfApp1.shell.ViewModel
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка загрузки оценок: {ex.Message}");
+            }
+        }
+
+        private void CalculateAverages()
+        {
+            try
+            {
+                if (CurrentStudent == null || SelectedQuarter == null) return;
+
+                var grades = _dbContext.JournalGrades
+                    .Include(jg => jg.TeacherSubject)
+                        .ThenInclude(ts => ts.Subject)
+                    .Include(jg => jg.Date)
+                    .Where(jg => jg.StudentClass.IdStudent == CurrentStudent.IdStudent &&
+                                jg.Date.IdQuarter == SelectedQuarter.IdQuarter)
+                    .ToList();
+
+                Dates.Clear();
+                _allDates.Clear();
+
+                var averageRow = new DateWithGrades
+                {
+                    Date = new Date { DateValue = DateTime.Now },
+                    GradesForDate = new List<string>(),
+                    FormattedDate = "Итоговые оценки"
+                };
+
+                foreach (var subject in Subjects)
+                {
+                    var subjectGrades = grades
+                        .Where(g => g.TeacherSubject.IdSubject == subject.IdSubject &&
+                                   g.Grade.HasValue)
+                        .Select(g => g.Grade.Value)
+                        .ToList();
+
+                    if (subjectGrades.Any())
+                    {
+                        var average = Math.Round(subjectGrades.Average(), 2);
+                        averageRow.GradesForDate.Add(average.ToString("0.00"));
+                    }
+                    else
+                    {
+                        averageRow.GradesForDate.Add("-");
+                    }
+                }
+
+                Dates.Add(averageRow);
+                _allDates.Add(averageRow);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка расчета средних оценок: {ex.Message}");
             }
         }
 
