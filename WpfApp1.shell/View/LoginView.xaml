@@ -86,7 +86,7 @@
                     Command="{Binding LoginCommand}" 
                     Style="{StaticResource RoundedButton}" 
                     Background="White"
-                    Foreground="#5E6BBD"
+                    Foreground="#38427C"
                     Click="LoginButton_Click" Height="40"
                     FontSize="20"/>
             </StackPanel>
