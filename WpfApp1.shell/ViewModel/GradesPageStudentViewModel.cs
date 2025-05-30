@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Subjects;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +16,11 @@ namespace WpfApp1.shell.ViewModel
         private ObservableCollection<Subjekt> _subjects;
         private ObservableCollection<Quarter> _quarters;
         private ObservableCollection<DateWithGrades> _dates;
+        private ObservableCollection<DateWithGrades> _allDates; // Все даты (для фильтрации)
         private Quarter _selectedQuarter;
         private Student _currentStudent;
         private readonly int _accountId;
+        private string _searchDate;
 
         public ObservableCollection<Subjekt> Subjects
         {
@@ -57,6 +58,18 @@ namespace WpfApp1.shell.ViewModel
             set => SetProperty(ref _currentStudent, value);
         }
 
+        public string SearchDate
+        {
+            get => _searchDate;
+            set
+            {
+                if (SetProperty(ref _searchDate, value))
+                {
+                    ApplyDateFilter();
+                }
+            }
+        }
+
         public ICommand RefreshCommand { get; }
 
         public GradesPageStudentViewModel(int accountId)
@@ -66,21 +79,21 @@ namespace WpfApp1.shell.ViewModel
             Subjects = new ObservableCollection<Subjekt>();
             Quarters = new ObservableCollection<Quarter>();
             Dates = new ObservableCollection<DateWithGrades>();
-            RefreshCommand = new RelayCommand(_ => LoadGradesData());
-            LoadInitialData();
+            _allDates = new ObservableCollection<DateWithGrades>();
 
+            RefreshCommand = new RelayCommand(_ => LoadGradesData());
+
+            LoadInitialData();
         }
 
         private void LoadInitialData()
         {
             try
             {
-                // Загрузка текущего ученика
                 CurrentStudent = _dbContext.Students
                     .Include(s => s.StudentClass)
                     .FirstOrDefault(s => s.Account.IdAccount == _accountId);
 
-                // Загрузка четвертей
                 Quarters = new ObservableCollection<Quarter>(_dbContext.Quarters
                     .OrderBy(q => q.IdQuarter)
                     .Select(q => new Quarter
@@ -92,7 +105,6 @@ namespace WpfApp1.shell.ViewModel
                     })
                     .ToList());
 
-                // Загрузка всех предметов
                 Subjects = new ObservableCollection<Subjekt>(_dbContext.Subjects.ToList());
 
                 if (Quarters.Any())
@@ -112,16 +124,14 @@ namespace WpfApp1.shell.ViewModel
             {
                 if (CurrentStudent == null || SelectedQuarter == null) return;
 
-                // Очищаем предыдущие данные
                 Dates.Clear();
+                _allDates.Clear();
 
-                // Загрузка дат для выбранной четверти
                 var quarterDates = _dbContext.Dates
                     .Where(d => d.IdQuarter == SelectedQuarter.IdQuarter)
                     .OrderBy(d => d.DateValue)
                     .ToList();
 
-                // Загрузка всех оценок ученика за четверть
                 var grades = _dbContext.JournalGrades
                     .Include(jg => jg.TeacherSubject)
                         .ThenInclude(ts => ts.Subject)
@@ -130,13 +140,13 @@ namespace WpfApp1.shell.ViewModel
                                 jg.Date.IdQuarter == SelectedQuarter.IdQuarter)
                     .ToList();
 
-                // Формируем матрицу оценок
                 foreach (var date in quarterDates)
                 {
                     var dateWithGrades = new DateWithGrades
                     {
                         Date = date,
-                        GradesForDate = new List<string>()
+                        GradesForDate = new List<string>(),
+                        FormattedDate = date.DateValue.ToString("dd.MM.yyyy")
                     };
 
                     foreach (var subject in Subjects)
@@ -149,6 +159,7 @@ namespace WpfApp1.shell.ViewModel
                     }
 
                     Dates.Add(dateWithGrades);
+                    _allDates.Add(dateWithGrades);
                 }
             }
             catch (Exception ex)
@@ -157,10 +168,38 @@ namespace WpfApp1.shell.ViewModel
             }
         }
 
+        private void ApplyDateFilter()
+        {
+            if (string.IsNullOrWhiteSpace(SearchDate))
+            {
+                Dates.Clear();
+                foreach (var date in _allDates)
+                {
+                    Dates.Add(date);
+                }
+            }
+            else
+            {
+                var searchParts = SearchDate.Split('.');
+                var normalizedSearch = string.Join(".", searchParts.Select(p => p.Trim()));
+
+                var filteredDates = _allDates
+                    .Where(d => d.FormattedDate.Contains(normalizedSearch))
+                    .ToList();
+
+                Dates.Clear();
+                foreach (var date in filteredDates)
+                {
+                    Dates.Add(date);
+                }
+            }
+        }
+
         public class DateWithGrades : BindableBase
         {
             public Date Date { get; set; }
             public List<string> GradesForDate { get; set; } = new List<string>();
+            public string FormattedDate { get; set; }
         }
 
         public class RelayCommand : ICommand

@@ -15,6 +15,18 @@
 
         <!-- Панель выбора четверти -->
         <StackPanel Grid.Row="1" Background="#5E6BBD" Orientation="Horizontal" Margin="10,0,0,0">
+            <Border Background="White" 
+                CornerRadius="8" 
+                Padding="12,5" Height="30" Margin="15,0,0,0"
+    >
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="8" Opacity="0.2" ShadowDepth="2"/>
+                </Border.Effect>
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="#5E6BBD" Margin="0,-5,0,0"><Run Language="ru-ru" Text="Оценки"/></TextBlock>
+            </Border>
             <TextBlock Text="Четверть:" FontSize="16" FontWeight="Bold" Foreground="White" Margin="10" VerticalAlignment="Center"/>
             <ComboBox ItemsSource="{Binding Quarters}" 
                      SelectedItem="{Binding SelectedQuarter}"
@@ -25,7 +37,7 @@
             <!-- Закругленная кнопка Обновить -->
             <Button Content="Обновить" Command="{Binding RefreshCommand}" Margin="10" Padding="10,5" Height="24" Width="78" Foreground="#38427C">
                 <Button.Template>
-                    <ControlTemplate TargetType="Button">
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="border" 
                                 CornerRadius="10" 
                                 Background="White"
@@ -44,12 +56,19 @@
                     </ControlTemplate>
                 </Button.Template>
                 <Button.Style>
-                    <Style TargetType="Button">
+                    <Style TargetType="{x:Type Button}">
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
                 </Button.Style>
             </Button>
+            <TextBlock Text="Поиск по дате:"
+                Foreground="White"
+                FontSize="16" Height="26"/>
+            <TextBox Text="{Binding SearchDate, UpdateSourceTrigger=PropertyChanged}" 
+                Width="150" 
+                Padding="5"
+                ToolTip="Формат: ДД.ММ.ГГГГ или ДД.ММ" Height="27" VerticalAlignment="Center" Margin="10,0,0,0"/>
         </StackPanel>
 
         <!-- Матрица оценок -->
