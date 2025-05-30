@@ -48,13 +48,23 @@
                                Margin="0,10,0,10"/>
 
                     <!-- Изображение в левой колонке -->
-                    <Image Source="/View/9_k3xfk5kEw.jpg" 
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Top" 
-                           Height="403" 
-                           Margin="0,15,0,0" 
-                           Grid.Row="1" 
-                           Width="272" />
+                    <Border Grid.Row="1" 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top" 
+                        Height="403" 
+                        Margin="10,15,10,10" 
+                        Width="272">    
+                        <!-- Внешний Border для рамки -->
+                        <Border BorderBrush="#5E6BBD" 
+                            BorderThickness="3"
+                            CornerRadius="0"
+                            ClipToBounds="True">    
+                            <!-- Внутренний Border для скругления изображения -->
+                            <Border CornerRadius="30" ClipToBounds="True">
+                                <Image Source="/View/school.jpg" Stretch="UniformToFill"/>
+                            </Border>
+                        </Border>
+                    </Border>
 
                     <!-- Центральный текст в средней колонке -->
                     <TextBlock
