@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="600" Width="900" MinWidth="900" MinHeight="600" MaxWidth="900" MaxHeight="600"
-        Title="Вход" WindowStartupLocation="CenterScreen">
+        Title="Вход" WindowStartupLocation="CenterScreen"
+        Icon="/school_icon.ico">
 
     <Window.Resources>
         <!-- Стиль для закругленных кнопок -->
