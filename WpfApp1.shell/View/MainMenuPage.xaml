@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:viewModel="clr-namespace:WpfApp1.shell.ViewModel"
         mc:Ignorable="d"
         MinWidth="900" MinHeight="600">
+
+    <UserControl.DataContext>
+        <viewModel:MainMenuPageViewModel/>
+    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -69,14 +74,17 @@
                         <!-- Адрес организации -->
                         <Border BorderBrush="#5E6BBD" BorderThickness="1" CornerRadius="5" Margin="0,0,0,10" Padding="5">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="16" Foreground="#000000" TextAlignment="Left" Width="200">
-                                    <Run Text="Адрес организации:"/>
-                                </TextBlock>
-                                <TextBlock FontSize="16" Foreground="#000000" TextAlignment="Right" Width="300" TextWrapping="Wrap">
-                                    <Run Text="160031, Вологодская область,"/><LineBreak/>
-                                    <Run Text="городской округ Вологда, "/><LineBreak/>
-                                    <Run Text="город Вологда, улица Кирова, д.35 "/>
-                                </TextBlock>
+                                <TextBlock FontSize="16" Foreground="#000000" TextAlignment="Left" Width="205" Height="70"><Run Text="Адрес организации:"/><LineBreak/><Run/><LineBreak/><Run Text="Увидеть на карте (click) --->"/></TextBlock>
+                                <Button 
+                                    FontSize="16" Foreground="#000000" Width="293" Content="160031, Вологодская область, &#xD;&#xA;городской округ Вологда, &#xD;&#xA;город Вологда, улица Кирова, д.35" Command="{Binding OpenMapCommand}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+            Background="Transparent" BorderThickness="0"  HorizontalContentAlignment="Right"
+            Cursor="Hand" Height="71">
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            Нажмите, чтобы открыть карту
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
                             </StackPanel>
                         </Border>
 
@@ -105,13 +113,19 @@
                         </Border>
 
                         <!-- Адрес сайта -->
+                        <!-- Адрес сайта -->
                         <Border BorderBrush="#5E6BBD" BorderThickness="1" CornerRadius="5" Margin="0,0,0,10" Padding="5">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontSize="16" Foreground="#000000" TextAlignment="Left" Width="200">
                                     <Run Text="Адрес сайта:"/>
                                 </TextBlock>
                                 <TextBlock FontSize="16" Foreground="#000000" TextAlignment="Right" Width="300">
-                                    <Run Text="http://lyc32.edu35.ru"/>
+                                    <Hyperlink Command="{Binding OpenWebsiteCommand}" 
+                                        Foreground="#38427C"
+                                        TextDecorations="Underline"
+                                        Cursor="Hand">
+                                        https://lic32-vologda-r19.gosweb.gosuslugi.ru/
+                                    </Hyperlink>
                                 </TextBlock>
                             </StackPanel>
                         </Border>
